@@ -1,5 +1,11 @@
 // From : https://bl.ocks.org/d3noob/43a860bc0024792f8803bba8ca0d5ecd
 
+function hostnamePopup(uuid) {
+    popupWindow = window.open( "/tree/hostname_popup/" + uuid, uuid,
+        'height=300,width=700,left=50,top=50,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes')
+}
+
+
 // Set the dimensions and margins of the diagram
 var margin = {top: 20, right: 200, bottom: 30, left: 90},
     width = 960 - margin.left - margin.right,
@@ -140,6 +146,8 @@ function hostnode_click(d) {
         .attr("stroke-linecap", "round")
         .attr("fill", "white");
 
+
+    hostnamePopup(d.data.uuid)
     // Modal display
     var url = "/tree/hostname/" + d.data.uuid;
     d3.json(url, {credentials: 'same-origin'}).then(urls => {

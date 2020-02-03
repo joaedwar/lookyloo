@@ -98,6 +98,21 @@ def hostnode_details_text(node_uuid):
                      as_attachment=True, attachment_filename='file.md')
 
 
+@app.route('/tree/hostname_popup/<node_uuid>/', methods=['GET'])
+def hostnode_popup(node_uuid):
+    with open(session["tree"], 'rb') as f:
+        ct = pickle.load(f)
+    hostnode = ct.root_hartree.get_host_node_by_uuid(node_uuid)
+    hostname = hostnode.name
+    parents = [hostnode.name]
+    while True:
+        if hostnode.is_root():
+            break
+        hostnode = hostnode.up
+        parents.append(hostnode.name)
+    return render_template('hostname_popup.html', parents=parents, hostname=hostname)
+
+
 @app.route('/tree/hostname/<node_uuid>', methods=['GET'])
 def hostnode_details(node_uuid):
     with open(session["tree"], 'rb') as f:
